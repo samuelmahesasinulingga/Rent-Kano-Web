@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Users | Bootstrap Simple Admin Template</title>
+
+    <link
+      href="assets/vendor/fontawesome/css/fontawesome.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/fontawesome/css/brands.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="assets/css/master.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <!-- ================= SIDEBAR (TIDAK DIUBAH) ================= -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="assets/img/icon-rentkano.jpeg"
+            height="40px"
+            class="app-logo"
+          />
+          <span class="ms-2 fs-8 text-black">Admin Rent-Kano</span>
+        </div>
+        <ul class="list-unstyled components text-secondary">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+          </li>
+          <li>
+            <a href="register-talent.html"
+              ><i class="fas fa-file-alt"></i> Register Talent</a
+            >
+          </li>
+          <li>
+            <a href="talents.html"><i class="fas fa-user-friends"></i>Users</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- ================= BODY ================= -->
+      <div id="body">
+                    <!-- navbar navigation component -->
+            <nav class="navbar navbar-expand-lg navbar-white bg-white">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-bars"></i><span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        <!-- ================= CONTENT ================= -->
+        <div class="content">
+          <div class="container">
+            <div class="page-title">
+              <h3>Users</h3>
+            </div>
+
+            <div class="box box-primary">
+              <div class="box-body">
+                <table
+                  width="100%"
+                  class="table table-hover"
+                  id="dataTables-example"
+                >
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Age</th>
+                      <th>Gender</th>
+                      <th>Location</th>
+                      <th>Ratings</th>
+                      <th>Premium</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="talentTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editTalentModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="editTalentForm" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Talent</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <input type="hidden" id="edit_id" />
+
+              <div class="mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" id="edit_name" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label>Age</label>
+                  <input type="number" class="form-control" id="edit_age" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Gender</label>
+                  <select class="form-select" id="edit_gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label>Height</label>
+                  <input type="number" class="form-control" id="edit_height" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Weight</label>
+                  <input type="number" class="form-control" id="edit_weight" />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label>Ratings</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  class="form-control"
+                  id="edit_ratings"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label>Location</label>
+                <input type="text" class="form-control" id="edit_location" />
+              </div>
+
+              <div class="mb-3">
+                <label>Introduction</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit_introduction"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label>About Me</label>
+                <div class="tag-input" id="editAboutMeTags">
+                  <input type="text" placeholder="Type and press Enter" />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label>Interest</label>
+                <div class="tag-input" id="editInterestTags">
+                  <input type="text" placeholder="Type and press Enter" />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label>Profile Image</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="edit_profile_image"
+                />
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="edit_premium"
+                />
+                <label class="form-check-label">Premium Status</label>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/datatables/datatables.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+      let editAboutMeTags = [];
+      let editInterestTags = [];
+
+      function renderTags(containerId, tagsArray) {
+        const container = document.getElementById(containerId);
+        const input = container.querySelector("input");
+
+        container.querySelectorAll(".tag").forEach((t) => t.remove());
+
+        tagsArray.forEach((text, index) => {
+          const tag = document.createElement("span");
+          tag.className = "tag badge bg-secondary me-1";
+          tag.innerHTML = `${text} <span style="cursor:pointer" data-index="${index}">&times;</span>`;
+          container.insertBefore(tag, input);
+
+          tag.querySelector("span").onclick = () => {
+            tagsArray.splice(index, 1);
+            renderTags(containerId, tagsArray);
+          };
+        });
+      }
+
+      function initTagInput(containerId, tagsArray) {
+        const container = document.getElementById(containerId);
+        const input = container.querySelector("input");
+
+        input.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && input.value.trim()) {
+            e.preventDefault();
+            tagsArray.push(input.value.trim());
+            input.value = "";
+            renderTags(containerId, tagsArray);
+          }
+        });
+      }
+
+      initTagInput("editAboutMeTags", editAboutMeTags);
+      initTagInput("editInterestTags", editInterestTags);
+    </script>
+
+    <script>
+      const token = localStorage.getItem("jwt_token");
+      if (!token) location.href = "login.html";
+
+      let talentsMap = {};
+
+      fetch("http://52.77.1.104:8080/api/talents", {
+        headers: { Authorization: "Bearer " + token },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          const tableBody = document.getElementById("talentTable");
+          tableBody.innerHTML = "";
+
+          result.data.talents.forEach((t) => {
+            talentsMap[t.id] = t;
+
+            tableBody.innerHTML += `
+          <tr>
+            <td>${t.name}</td>
+            <td>${t.age}</td>
+            <td>${t.gender}</td>
+            <td>${t.location}</td>
+            <td>${t.ratings}</td>
+            <td>
+              ${
+                t.premium_status
+                  ? '<span class="badge bg-success">Premium</span>'
+                  : '<span class="badge bg-secondary">Free</span>'
+              }
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-outline-info btn-edit" data-id="${
+                t.id
+              }">
+                <i class="fas fa-pen"></i>
+              </a>
+              <a href="#" class="btn btn-outline-danger btn-delete ms-1" data-id="${
+                t.id
+              }">
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+          </tr>`;
+          });
+
+          $("#dataTables-example").DataTable();
+        });
+
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".btn-edit");
+        if (!btn) return;
+
+        const t = talentsMap[btn.dataset.id];
+
+        edit_id.value = t.id;
+        edit_name.value = t.name;
+        edit_age.value = t.age;
+        edit_gender.value = t.gender?.charAt(0).toUpperCase() + t.gender?.slice(1).toLowerCase();
+        edit_height.value = t.height;
+        edit_weight.value = t.weight;
+        edit_ratings.value = t.ratings;
+        edit_location.value = t.location;
+        edit_introduction.value = t.introduction;
+        edit_premium.checked = t.premium_status;
+
+        // ===== RESET ARRAY (JANGAN GANTI REFERENSI) =====
+        editAboutMeTags.length = 0;
+        editInterestTags.length = 0;
+
+        // ===== ISI DARI DATA BACKEND =====
+        if (t.about_me) {
+          t.about_me.split(",").forEach((x) => editAboutMeTags.push(x.trim()));
+        }
+
+        if (t.interest) {
+          t.interest.split(",").forEach((x) => editInterestTags.push(x.trim()));
+        }
+
+        renderTags("editAboutMeTags", editAboutMeTags);
+        renderTags("editInterestTags", editInterestTags);
+
+        new bootstrap.Modal(editTalentModal).show();
+      });
+
+      editTalentForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const id = edit_id.value;
+
+        const payload = {
+          name: edit_name.value,
+          age: parseInt(edit_age.value),
+          height: parseInt(edit_height.value),
+          weight: parseInt(edit_weight.value),
+          ratings: parseFloat(edit_ratings.value),
+          location: edit_location.value,
+          introduction: edit_introduction.value,
+          about_me: editAboutMeTags.join(","), // ✅ TAG → comma
+          interest: editInterestTags.join(","), // ✅ TAG → comma
+          gender: edit_gender.value.toUpperCase(),
+          premium_status: edit_premium.checked,
+          profile_image:
+            talentsMap[id].profile_image || talentsMap[id].profileImage || "",
+        };
+
+        fetch(`http://52.77.1.104:8080/api/admin/talent/update/${id}`, {
+          method: "PUT",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === "success") {
+              alert("Talent berhasil diupdate");
+
+              // 🔥 UPDATE DATA LOKAL
+              talentsMap[id].about_me = payload.about_me;
+              talentsMap[id].interest = payload.interest;
+              talentsMap[id].introduction = payload.introduction;
+              talentsMap[id].location = payload.location;
+              talentsMap[id].ratings = payload.ratings;
+              talentsMap[id].premium_status = payload.premium_status;
+
+              bootstrap.Modal.getInstance(editTalentModal).hide();
+            } else {
+              alert("Update gagal: " + res.message);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Gagal update data");
+          });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("click", function (e) {
+        const btn = e.target.closest(".btn-delete");
+        if (!btn) return;
+
+        e.preventDefault();
+
+        const id = btn.dataset.id;
+        if (!id) {
+          alert("ID tidak ditemukan");
+          return;
+        }
+
+        if (!confirm("Yakin ingin menghapus talent ini?")) return;
+
+        fetch(`http://52.77.1.104:8080/api/admin/talent/delete/${id}`, {
+          method: "DELETE", // ganti ke POST jika backend pakai POST
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === "success") {
+              alert("Talent berhasil dihapus");
+              location.reload();
+            } else {
+              alert("Gagal hapus: " + res.message);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Gagal menghapus data");
+          });
+      });
+    </script>
+  </body>
+</html>

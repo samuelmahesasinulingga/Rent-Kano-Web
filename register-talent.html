@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Forms | Bootstrap Simple Admin Template</title>
+    <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/master.css" rel="stylesheet">
+    <style>
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 6px;
+            border: 1px solid #ced4da;
+            border-radius: .375rem;
+            min-height: calc(1.5em + .75rem + 2px);
+        }
+        .tag-input input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 120px;
+        }
+        .tag {
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .tag span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+          <nav id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/img/icon-rentkano.jpeg" height="40px" alt="bootraper logo" class="app-logo">
+                <span class="ms-2 fs-8 text-black">Admin Rent-Kano</span>
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="register-talent.html"><i class="fas fa-file-alt"></i> Register Talent</a>
+                </li>
+                <li>
+                    <a href="talents.html"><i class="fas fa-user-friends"></i>Users</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- end of sidebar component -->
+        <div id="body">
+            <!-- navbar navigation component -->
+            <nav class="navbar navbar-expand-lg navbar-white bg-white">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-bars"></i><span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end of navbar navigation -->
+            <div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Forms</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">Register Talent</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Register Talent</h5>
+                                        <form id="talentForm" class="needs-validation" novalidate enctype="multipart/form-data">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" name="name" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Age</label>
+                                            <input type="number" class="form-control" name="age" required>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Height</label>
+                                                <input type="number" class="form-control" name="height" required>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label">Weight</label>
+                                                <input type="number" class="form-control" name="weight" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Ratings</label>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                name="ratings"
+                                                step="0.1"
+                                                min="0"
+                                                max="5"
+                                                placeholder="contoh: 1.1"
+                                                required
+                                            >
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Location</label>
+                                            <input type="text" class="form-control" name="location" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Introduction</label>
+                                            <input type="text" class="form-control" name="introduction" required>
+                                        </div>
+
+                                        <!-- ===== ABOUT ME (DIUBAH JADI TAG, POSISI & STYLE TETAP) ===== -->
+                                        <div class="mb-3">
+                                            <label class="form-label">About Me</label>
+                                            <div class="tag-input" id="aboutMeTags">
+                                                <input type="text" placeholder="Type and press Enter">
+                                            </div>
+                                        </div>
+
+                                        <!-- ===== INTEREST (DIUBAH JADI TAG) ===== -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Interest</label>
+                                            <div class="tag-input" id="interestTags">
+                                                <input type="text" placeholder="Type and press Enter">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Profile Image</label>
+                                            <input type="file" class="form-control" name="profile_image" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Gender</label>
+                                            <select name="gender" class="form-select" required>
+                                                <option value="">Choose...</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" name="premium_status" id="premium">
+                                            <label class="form-check-label" for="premium">
+                                                Premium Status
+                                            </label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/form-validator.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    
+<script>
+/* TAG HANDLER (KHUSUS ABOUT ME & INTEREST) */
+function setupTagInput(id) {
+    const container = document.getElementById(id);
+    const input = container.querySelector("input");
+    const tags = [];
+
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && input.value.trim()) {
+            e.preventDefault();
+            const value = input.value.trim();
+
+            if (!tags.includes(value)) {
+                tags.push(value);
+
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.innerHTML = value + '<span>&times;</span>';
+
+                tag.querySelector("span").onclick = () => {
+                    tags.splice(tags.indexOf(value), 1);
+                    tag.remove();
+                };
+
+                container.insertBefore(tag, input);
+            }
+            input.value = "";
+        }
+    });
+
+    return () => tags.join(",");
+}
+
+const getAboutMe = setupTagInput("aboutMeTags");
+const getInterest = setupTagInput("interestTags");
+
+/* SUBMIT (TIDAK DIUBAH SELAIN VALUE TAG) */
+document.getElementById("talentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const token = localStorage.getItem("jwt_token");
+    if(!token){
+        alert("Session expired. Please login again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const form = this;
+
+    const data = {
+        name: form.name.value,
+        age: parseInt(form.age.value),
+        height: parseInt(form.height.value),
+        weight: parseInt(form.weight.value),
+        ratings: parseFloat(form.ratings.value),
+        location: form.location.value,
+        introduction: form.introduction.value,
+        about_me: getAboutMe(),
+        interest: getInterest(),
+        profile_image: form.profile_image.value.split("\\").pop(),
+        premium_status: form.premium_status.checked,
+        gender: form.gender.value
+    };
+
+    fetch("http://52.77.1.104:8080/api/admin/talent/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if(result.status === "success"){
+            alert("Talent berhasil ditambahkan!");
+            form.reset();
+        } else {
+            alert("Gagal: " + result.message);
+        }
+    })
+    .catch(() => alert("Gagal koneksi ke server"));
+});
+</script>
+
+
+</body>
+
+</html>
