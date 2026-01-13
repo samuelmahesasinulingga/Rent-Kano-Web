@@ -46,8 +46,10 @@ secure coding practices.
 
 ## How to Run
 1. Open the following URL in your browser:
+   ```
    http://localhost/SQLInjection/login.html
-
+   ```
+   
 2. Test login with username and password authentic 
    ```
    username : admin
