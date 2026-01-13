@@ -20,12 +20,15 @@ secure coding practices.
    git clone https://github.com/samuelmahesasinulingga/SQLInjection-Lab.git
 
 2. Move the project folder into the XAMPP htdocs directory:
+   ```
    C:\xampp\htdocs\SQLInjection
-
+   ```
 3. Start Apache and MySQL from XAMPP Control Panel.
 
 4. Create a database named `sqli_demo`.
+   ```sql
    CREATE DATABASE sqli_demo;
+   ```
 
 5. Create table users. Below the source code:
    ```
