@@ -48,14 +48,17 @@
             >
           </li>
           <li>
-            <a href="talents.html"><i class="fas fa-user-friends"></i>Users</a>
+            <a href="talents.html"><i class="fas fa-user-friends"></i>Talents</a>
+          </li>
+          <li>
+            <a href="tracking-talents.html"><i class="fas fa-user-friends"></i>Tracking Talents</a>
           </li>
         </ul>
       </nav>
 
       <!-- ================= BODY ================= -->
       <div id="body">
-                    <!-- navbar navigation component -->
+            <!-- navbar navigation component -->
             <nav class="navbar navbar-expand-lg navbar-white bg-white">
                 <button type="button" id="sidebarCollapse" class="btn btn-light">
                     <i class="fas fa-bars"></i><span></span>
@@ -65,7 +68,9 @@
                         <li class="nav-item dropdown">
                             <div class="nav-dropdown">
                                 <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                  <i class="fas fa-user"></i>
+                                  <span id="navbarUsername">Loading...</span>
+                                  <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                     <ul class="nav-list">
@@ -86,7 +91,7 @@
         <div class="content">
           <div class="container">
             <div class="page-title">
-              <h3>Users</h3>
+              <h3>Talents</h3>
             </div>
 
             <div class="box box-primary">
@@ -372,8 +377,8 @@
           ratings: parseFloat(edit_ratings.value),
           location: edit_location.value,
           introduction: edit_introduction.value,
-          about_me: editAboutMeTags.join(","), // ✅ TAG → comma
-          interest: editInterestTags.join(","), // ✅ TAG → comma
+          about_me: editAboutMeTags.join(","), 
+          interest: editInterestTags.join(","),
           gender: edit_gender.value.toUpperCase(),
           premium_status: edit_premium.checked,
           profile_image:
@@ -448,6 +453,31 @@
             alert("Gagal menghapus data");
           });
       });
+    </script>
+    <script>
+      const navbarUser = document.getElementById("navbarUsername");
+
+      if (navbarUser) {
+        fetch("http://52.77.1.104:8080/api/user", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token // ✅ PAKAI TOKEN YANG SUDAH ADA
+          }
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.status === "success") {
+              navbarUser.textContent =
+                res.data.nick_name || res.data.full_name || "Admin";
+            } else {
+              navbarUser.textContent = "Admin";
+            }
+          })
+          .catch(err => {
+            console.error("Gagal ambil user:", err);
+            navbarUser.textContent = "Admin";
+          });
+      }
     </script>
   </body>
 </html>

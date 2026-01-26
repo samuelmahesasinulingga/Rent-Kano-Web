@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Orders | Bootstrap Simple Admin Template</title>
+
+  <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+  <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet" />
+  <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet" />
+  <link href="assets/css/master.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!-- ================= SIDEBAR (TIDAK DIUBAH) ================= -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <img
+          src="assets/img/icon-rentkano.jpeg"
+          height="40px"
+          class="app-logo"
+        />
+        <span class="ms-2 fs-8 text-black">Admin Rent-Kano</span>
+      </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="register-talent.html"><i class="fas fa-file-alt"></i> Register Talent</a>
+                </li>
+                <li>
+                    <a href="talents.html"><i class="fas fa-user-friends"></i>Talents</a>
+                </li>
+                <li>
+                    <a href="tracking-talents.html"><i class="fas fa-user-friends"></i>Tracking Talents</a>
+                </li>
+            </ul>
+    </nav>
+
+    <!-- ================= BODY ================= -->
+    <div id="body">
+
+      <!-- ================= NAVBAR (TIDAK DIUBAH) ================= -->
+      <nav class="navbar navbar-expand-lg navbar-white bg-white">
+        <button type="button" id="sidebarCollapse" class="btn btn-light">
+          <i class="fas fa-bars"></i><span></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <div class="nav-dropdown">
+                <a
+                  href="#"
+                  class="nav-item nav-link dropdown-toggle text-secondary"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fas fa-user"></i>
+                  <span id="navbarUsername">Loading...</span>
+                  <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- ================= CONTENT (ORDERS) ================= -->
+      <div class="content">
+        <div class="container">
+
+          <div class="page-title">
+            <h3>Orders</h3>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <table
+                width="100%"
+                class="table table-hover"
+                id="ordersTable"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Invoice</th>
+                    <th>User</th>
+                    <th>Talent</th>
+                    <th>Session</th>
+                    <th>Start</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th class="text-end">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPT ================= -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/datatables/datatables.min.js"></script>
+  <script src="assets/js/script.js"></script>
+
+  <script>
+    const DOMAIN = "http://52.77.1.104:8080";
+    const token = localStorage.getItem("jwt_token");
+
+    if (!token) location.href = "login.html";
+
+    fetch(`${DOMAIN}/api/admin/orders`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        const tbody = document.getElementById("ordersBody");
+        tbody.innerHTML = "";
+
+        res.data.forEach((order) => {
+          const user = order.reservation.users;
+          const talent = order.reservation.talents;
+
+          tbody.innerHTML += `
+            <tr>
+              <td>${order.id}</td>
+              <td>${order.invoice_number}</td>
+              <td>${user.full_name}</td>
+              <td>${talent.name}</td>
+              <td>${order.reservation.session_mode}</td>
+              <td>${formatDate(order.reservation.start_date_time)}</td>
+              <td>Rp ${order.total}</td>
+              <td>${statusBadge(order.status)}</td>
+              <td class="text-end">
+                ${renderActions(order)}
+              </td>
+            </tr>
+          `;
+        });
+
+        $("#ordersTable").DataTable();
+      });
+
+    function statusBadge(status) {
+      const map = {
+        "pending": "warning",
+        "in progress": "info",
+        "finished": "success",
+        "canceled": "danger",
+      };
+      return `<span class="badge bg-${map[status] || "secondary"}">${status}</span>`;
+    }
+
+    function renderActions(order) {
+      // sebelum di-accept
+      if (order.status === "pending") {
+        return `
+          <button class="btn btn-sm btn-success"
+            onclick="updateOrder(${order.id}, 'accept')">
+            Accept
+          </button>
+          <button class="btn btn-sm btn-danger ms-1"
+            onclick="updateOrder(${order.id}, 'cancel')">
+            Cancel
+          </button>
+        `;
+      }
+
+      // setelah accept → in progress
+      if (order.status === "in progress") {
+        return `
+          <button class="btn btn-sm btn-primary"
+            onclick="updateOrder(${order.id}, 'finish')">
+            Finish
+          </button>
+          <button class="btn btn-sm btn-danger ms-1"
+            onclick="updateOrder(${order.id}, 'cancel')">
+            Cancel
+          </button>
+        `;
+      }
+
+      // finished / canceled
+      return "-";
+    }
+
+
+    function updateOrder(id, action) {
+      if (!confirm(`Yakin ${action} order ini?`)) return;
+
+      fetch(`${DOMAIN}/api/admin/orders/${action}/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === "success") {
+            alert("Order berhasil diupdate");
+            location.reload();
+          } else {
+            alert(res.message);
+          }
+        })
+        .catch(() => alert("Server error"));
+    }
+
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleString("id-ID");
+    }
+  </script>
+      <script>
+      const navbarUser = document.getElementById("navbarUsername");
+
+      if (navbarUser) {
+        fetch("http://52.77.1.104:8080/api/user", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token 
+          }
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.status === "success") {
+              navbarUser.textContent =
+                res.data.nick_name || res.data.full_name || "Admin";
+            } else {
+              navbarUser.textContent = "Admin";
+            }
+          })
+          .catch(err => {
+            console.error("Gagal ambil user:", err);
+            navbarUser.textContent = "Admin";
+          });
+      }
+    </script>
+</body>
+</html>

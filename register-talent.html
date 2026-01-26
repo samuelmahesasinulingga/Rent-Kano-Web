@@ -59,7 +59,10 @@
                     <a href="register-talent.html"><i class="fas fa-file-alt"></i> Register Talent</a>
                 </li>
                 <li>
-                    <a href="talents.html"><i class="fas fa-user-friends"></i>Users</a>
+                    <a href="talents.html"><i class="fas fa-user-friends"></i>Talents</a>
+                </li>
+                <li>
+                    <a href="tracking-talents.html"><i class="fas fa-user-friends"></i>Tracking Talents</a>
                 </li>
             </ul>
         </nav>
@@ -75,7 +78,7 @@
                         <li class="nav-item dropdown">
                             <div class="nav-dropdown">
                                 <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                    <i class="fas fa-user"></i><span id="navbarUsername">Loading...</span><i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                     <ul class="nav-list">
@@ -204,7 +207,14 @@
     <script src="assets/js/form-validator.js"></script>
     <script src="assets/js/script.js"></script>
 
-    
+    <script>
+        const token = localStorage.getItem("jwt_token");
+        if (!token) {
+            alert("Session expired. Please login again.");
+            window.location.href = "login.html";
+        }
+    </script>
+
 <script>
 /* TAG HANDLER (KHUSUS ABOUT ME & INTEREST) */
 function setupTagInput(id) {
@@ -241,11 +251,9 @@ function setupTagInput(id) {
 const getAboutMe = setupTagInput("aboutMeTags");
 const getInterest = setupTagInput("interestTags");
 
-/* SUBMIT (TIDAK DIUBAH SELAIN VALUE TAG) */
 document.getElementById("talentForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    const token = localStorage.getItem("jwt_token");
     if(!token){
         alert("Session expired. Please login again.");
         window.location.href = "login.html";
@@ -289,7 +297,31 @@ document.getElementById("talentForm").addEventListener("submit", function(e){
     .catch(() => alert("Gagal koneksi ke server"));
 });
 </script>
+    <script>
+      const navbarUser = document.getElementById("navbarUsername");
 
+      if (navbarUser) {
+        fetch("http://52.77.1.104:8080/api/user", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token 
+          }
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.status === "success") {
+              navbarUser.textContent =
+                res.data.nick_name || res.data.full_name || "Admin";
+            } else {
+              navbarUser.textContent = "Admin";
+            }
+          })
+          .catch(err => {
+            console.error("Gagal ambil user:", err);
+            navbarUser.textContent = "Admin";
+          });
+      }
+    </script>
 
 </body>
 
